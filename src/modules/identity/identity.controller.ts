@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthorizeException, AuthService } from './auth.service';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from 'shared/auth.guard';
 import { Request } from 'express';
 import { IdentityNotFoundException, IdentityService } from './identity.service';
 
