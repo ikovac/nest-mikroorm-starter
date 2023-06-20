@@ -2,14 +2,14 @@ import { LoadStrategy } from '@mikro-orm/core';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import authConfig from 'config/auth.config';
+import { IdentityModule } from 'modules/identity/identity.module';
 import databaseConfig from './config/database.config';
-import entities from './shared/database/entities';
-import User from './user.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [databaseConfig],
+      load: [databaseConfig, authConfig],
     }),
     MikroOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -17,10 +17,10 @@ import User from './user.entity';
       useFactory: (config: ConfigService) => ({
         loadStrategy: LoadStrategy.JOINED,
         ...config.get('database'),
-        entities,
+        autoLoadEntities: true,
       }),
     }),
-    MikroOrmModule.forFeature([User]),
+    IdentityModule,
   ],
 })
 export class AppModule {}

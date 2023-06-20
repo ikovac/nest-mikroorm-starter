@@ -1,4 +1,5 @@
 import { registerAs } from '@nestjs/config';
+import { dash } from 'radash';
 
 export default registerAs('database', () => ({
   port: parseInt(process.env.DB_PORT, 10),
@@ -13,5 +14,9 @@ export default registerAs('database', () => ({
     disableForeignKeys: false,
     pattern: /^\d+[\w-]+\.ts$/,
     fileName: (timestamp: string) => `${timestamp}-new-migration`,
+  },
+  seeder: {
+    path: `${process.cwd()}/src/shared/database/seeds`,
+    fileName: (className: string) => dash(className),
   },
 }));
