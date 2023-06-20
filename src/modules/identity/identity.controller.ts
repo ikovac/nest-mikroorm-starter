@@ -25,7 +25,7 @@ export class IdentityController {
   ) {}
 
   @Post('authorize')
-  async authorize(@Body() { email, password }: AuthorizeDto) {
+  authorize(@Body() { email, password }: AuthorizeDto) {
     return this.authService
       .authorize(email, password)
       .then((token) => ({ data: { token } }))
